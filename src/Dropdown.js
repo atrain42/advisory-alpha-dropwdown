@@ -189,6 +189,7 @@ function App() {
                 opacity: isInView ? 1 : 0,
                 transition: "all 0.3s linear 0.7s",
               }}
+              onClick={() => setDropdown(false)}
             >
               Log out
             </button>

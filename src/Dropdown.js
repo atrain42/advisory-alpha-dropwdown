@@ -67,8 +67,10 @@ function App() {
   const clickHandler = () => {
     if (!dropdown) {
       setDropdown(true);
+      setViewAllRoles(false);
     } else {
       setDropdown(false);
+      setViewAllRoles(true);
     }
 
     if (!flipIcon) {

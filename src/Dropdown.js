@@ -27,17 +27,14 @@ function App() {
   const [role, setRole] = useState([]);
   const [flipIcon, setFlipIcon] = useState(false);
   const [dropdown, setDropdown] = useState(false);
-  const [filter, setFilter] = useState("");
+  const [filterData, setFilterData] = useState("");
   const [viewAllRoles, setViewAllRoles] = useState(false);
   const searchValue = useRef("");
   const trimmedData = role.slice(0, -2);
 
-  console.log(role);
-
   // add animation when dropdown menu appears
   const dropdownRef = useRef(null);
   const isInView = useInView(dropdownRef, { once: false });
-  console.log(trimmedData);
 
   //Fetch data on page load by passing no arguments to useEffect hook
   useEffect(() => {
@@ -78,6 +75,8 @@ function App() {
     setViewAllRoles(false);
   };
 
+  // control which button is rendered based on whether or not the view all
+  // button has been clicked
   const buttonText = () => {
     if (!viewAllRoles) {
       return (
@@ -116,6 +115,7 @@ function App() {
           id={!flipIcon ? "caret-icon" : "caret-icon__flipped"}
         />
       </button>
+
       <div
         className={!dropdown ? "dropdown" : "dropdown-unhide"}
         ref={dropdownRef}
@@ -148,44 +148,53 @@ function App() {
             <input
               type="text"
               ref={searchValue}
-              value={filter}
-              onChange={(e) => setFilter(e.target.value)}
+              value={filterData}
+              onChange={(e) => setFilterData(e.target.value)}
             ></input>
           </span>
           <ul>
             {!viewAllRoles
               ? trimmedData
-                  .filter((f) => f.name.includes(filter) || filter === "")
-                  .map((f, index) => (
+                  .filter(
+                    (apiData) =>
+                      apiData.name.includes(filterData) || filterData === ""
+                  )
+                  .map((apiData, index) => (
                     <li key={index}>
-                      <h4>{f.name}</h4>
-                      <h5>{f.role}</h5>
+                      <h4>{apiData.name}</h4>
+                      <h5>{apiData.role}</h5>
                     </li>
                   ))
               : role
-                  .filter((f) => f.name.includes(filter) || filter === "")
-                  .map((f, index) => (
+                  .filter(
+                    (apiData) =>
+                      apiData.name.includes(filterData) || filterData === ""
+                  )
+                  .map((apiData, index) => (
                     <li key={index}>
-                      <h4>{f.name}</h4>
-                      <h5>{f.role}</h5>
+                      <h4>{apiData.name}</h4>
+                      <h5>{apiData.role}</h5>
                     </li>
                   ))}
             {buttonText()}
           </ul>
         </div>
+        {/* Make logout button and copyright info disappear when view all button is clicked */}
         {!viewAllRoles && (
-          <button
-            id="logout-btn"
-            style={{
-              transform: isInView ? "none" : "translateY(20px)",
-              opacity: isInView ? 1 : 0,
-              transition: "all 0.3s linear 0.7s",
-            }}
-          >
-            Log out
-          </button>
+          <div>
+            <button
+              id="logout-btn"
+              style={{
+                transform: isInView ? "none" : "translateY(20px)",
+                opacity: isInView ? 1 : 0,
+                transition: "all 0.3s linear 0.7s",
+              }}
+            >
+              Log out
+            </button>
+            <p id="copyright">&#xA9; Advisory Alpha, 2022</p>
+          </div>
         )}
-        {!viewAllRoles && <p id="copyright">&#xA9; Advisory Alpha, 2022</p>}
       </div>
     </div>
   );

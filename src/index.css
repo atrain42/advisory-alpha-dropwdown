@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Lora&family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -13,6 +14,11 @@
   align-items: center;
 }
 
+button {
+  cursor: pointer;
+  background-color: transparent;
+}
+
 /* Button styling */
 #main-btn {
   padding: 7.5px 10px;
@@ -21,8 +27,6 @@
   border: none;
   border-radius: 10px;
   margin: 0 auto;
-  background-color: transparent;
-  cursor: pointer;
   margin-bottom: 10px;
 }
 
@@ -91,7 +95,6 @@
 }
 
 /* Top of dropdown */
-
 .dropdown-header {
   padding-top: 25px;
   border-radius: inherit;
@@ -147,8 +150,7 @@
   margin: 0 7.5px;
 }
 
-/* Bottom of dropdown */
-
+/* Body of dropdown */
 .dropdown-body {
   padding: 20px 20px;
   display: flex;
@@ -218,9 +220,7 @@
 
 #view-all__btn {
   border: none;
-  background-color: transparent;
   margin-left: 10px;
-  cursor: pointer;
 }
 
 #view-all__btn:hover {
@@ -230,12 +230,10 @@
 #logout-btn {
   color: #113749;
   border: 1px solid #2582b1;
-  background-color: transparent;
   padding: 5px 10px;
   display: flex;
   margin: 0 auto;
   box-shadow: 0px 0px 10px 4px #2626260a;
-  cursor: pointer;
   transition: all 0.25s;
   margin-bottom: 30px;
 }

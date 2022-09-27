@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
 import { useInView } from "framer-motion";
 
 //Icons
@@ -24,13 +25,19 @@ const icons = [
 ];
 
 function App() {
-  const [role, setRole] = useState([]);
+  const [apiData, setApiData] = useState([]);
   const [flipIcon, setFlipIcon] = useState(false);
   const [dropdown, setDropdown] = useState(false);
   const [filterData, setFilterData] = useState("");
   const [viewAllRoles, setViewAllRoles] = useState(false);
+
+  // Use state to determine default/initial name & role for
+  // I will be using the first element of the array
+  const [name, setName] = useState("");
+  const [role, setRole] = useState("");
+
   const searchValue = useRef("");
-  const trimmedData = role.slice(0, -2);
+  const trimmedData = apiData.slice(0, -2);
 
   // add animation when dropdown menu appears
   const dropdownRef = useRef(null);
@@ -38,15 +45,19 @@ function App() {
 
   //Fetch data on page load by passing no arguments to useEffect hook
   useEffect(() => {
-    fetch("https://advisoryalpha.github.io/skill-assessments/identities.json")
-      .then((res) => res.json())
-      .then((data) => {
-        setRole(data);
+    axios
+      .get("https://advisoryalpha.github.io/skill-assessments/identities.json")
+      .then((res) => {
+        setApiData(res.data);
+        setName(res.data[0].name);
+        setRole(res.data[0].role);
       })
-      .catch((err) => {
-        console.log(err.message);
+      .catch((error) => {
+        alert(error.message);
       });
   }, []);
+
+  console.log(apiData);
 
   //Create a use effect that autofocuses the search input when the button is clicked
   useEffect(() => {
@@ -101,13 +112,20 @@ function App() {
     }
   };
 
+  // When a list item is clicked to switch identities, this function will execute
+  // and update the name and role states.
+  const updateIdentityHandler = () => {
+    setName("bye");
+    setRole("NOW");
+  };
+
   return (
     <div className="container">
       <button onClick={clickHandler} id="main-btn">
         <img src={profileImage} alt="profile" id="profile-img" />
         <span className="btn-text">
           <h1>Sarah Johnson</h1>
-          <p>Advisor</p>
+          <p>{name}</p>
         </span>
         <img
           src={iconCaret}
@@ -121,10 +139,10 @@ function App() {
         ref={dropdownRef}
       >
         <div className="dropdown-header">
-          <h1>Advisor</h1>
+          <h1>{name}</h1>
           <img src={profileImage} alt="profile" id="dropdown-img" />
           <h2>Sarah Johnson</h2>
-          <h4>Administrator</h4>
+          <h4>{role}</h4>
           <h5>sarah@advisoryalpha.com</h5>
           <div className="icon-container">
             {icons.map((el, index) => (
@@ -153,27 +171,38 @@ function App() {
             ></input>
           </span>
           <ul>
+            {/* this decides how many api items appears on the screen. Based on whether or not View all button is pressed */}
             {!viewAllRoles
               ? trimmedData
                   .filter(
-                    (apiData) =>
-                      apiData.name.includes(filterData) || filterData === ""
+                    (el) => el.name.includes(filterData) || filterData === ""
                   )
-                  .map((apiData, index) => (
-                    <li key={index}>
-                      <h4>{apiData.name}</h4>
-                      <h5>{apiData.role}</h5>
+                  .map((el, index) => (
+                    <li
+                      key={index}
+                      onClick={() => {
+                        setName(el.name);
+                        setRole(el.role);
+                      }}
+                    >
+                      <h4>{el.name}</h4>
+                      <h5>{el.role}</h5>
                     </li>
                   ))
-              : role
+              : apiData
                   .filter(
-                    (apiData) =>
-                      apiData.name.includes(filterData) || filterData === ""
+                    (el) => el.name.includes(filterData) || filterData === ""
                   )
-                  .map((apiData, index) => (
-                    <li key={index}>
-                      <h4>{apiData.name}</h4>
-                      <h5>{apiData.role}</h5>
+                  .map((el, index) => (
+                    <li
+                      key={index}
+                      onClick={() => {
+                        setName(el.name);
+                        setRole(el.role);
+                      }}
+                    >
+                      <h4>{el.name}</h4>
+                      <h5>{el.role}</h5>
                     </li>
                   ))}
             {buttonText()}

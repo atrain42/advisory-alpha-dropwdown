@@ -112,13 +112,6 @@ function App() {
     }
   };
 
-  // When a list item is clicked to switch identities, this function will execute
-  // and update the name and role states.
-  const updateIdentityHandler = () => {
-    setName("bye");
-    setRole("NOW");
-  };
-
   return (
     <div className="container">
       <button onClick={clickHandler} id="main-btn">

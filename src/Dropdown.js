@@ -39,7 +39,7 @@ function App() {
   const searchValue = useRef("");
   const trimmedData = apiData.slice(0, -2);
 
-  // add animation when dropdown menu appears
+  // dropdown animation intersection observer
   const dropdownRef = useRef(null);
   const isInView = useInView(dropdownRef, { once: false });
 
@@ -106,6 +106,41 @@ function App() {
     );
   };
 
+  // Controls how much data is rendered in the list from the API
+  // if user hasn't clicked "view all" button, then the trimmedData is rendered
+  // if user clicks "view all", then apiData is rendered
+  const showDataLength = () => {
+    return !viewAllRoles
+      ? trimmedData
+          .filter((el) => el.name.includes(filterData) || filterData === "")
+          .map((el, index) => (
+            <li
+              key={index}
+              onClick={() => {
+                setName(el.name);
+                setRole(el.role);
+              }}
+            >
+              <h4>{el.name}</h4>
+              <h5>{el.role}</h5>
+            </li>
+          ))
+      : apiData
+          .filter((el) => el.name.includes(filterData) || filterData === "")
+          .map((el, index) => (
+            <li
+              key={index}
+              onClick={() => {
+                setName(el.name);
+                setRole(el.role);
+              }}
+            >
+              <h4>{el.name}</h4>
+              <h5>{el.role}</h5>
+            </li>
+          ));
+  };
+
   return (
     <div className="container">
       <button onClick={clickHandler} id="main-btn">
@@ -158,40 +193,7 @@ function App() {
             ></input>
           </span>
           <ul>
-            {/* this decides how many api items appears on the screen. Based on whether or not View all button is pressed */}
-            {!viewAllRoles
-              ? trimmedData
-                  .filter(
-                    (el) => el.name.includes(filterData) || filterData === ""
-                  )
-                  .map((el, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setName(el.name);
-                        setRole(el.role);
-                      }}
-                    >
-                      <h4>{el.name}</h4>
-                      <h5>{el.role}</h5>
-                    </li>
-                  ))
-              : apiData
-                  .filter(
-                    (el) => el.name.includes(filterData) || filterData === ""
-                  )
-                  .map((el, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setName(el.name);
-                        setRole(el.role);
-                      }}
-                    >
-                      <h4>{el.name}</h4>
-                      <h5>{el.role}</h5>
-                    </li>
-                  ))}
+            {showDataLength()}
             {buttonText()}
           </ul>
         </div>

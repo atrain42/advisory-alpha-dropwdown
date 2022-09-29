@@ -199,7 +199,7 @@ function App() {
         </div>
         {/* Make logout button and copyright info disappear when view all button is clicked */}
         {!viewAllRoles && (
-          <div>
+          <div className="dropdown-footer">
             <button
               id="logout-btn"
               style={{

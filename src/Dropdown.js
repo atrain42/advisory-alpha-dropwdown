@@ -73,11 +73,7 @@ function App() {
       setViewAllRoles(true);
     }
 
-    if (!flipIcon) {
-      setFlipIcon(true);
-    } else {
-      setFlipIcon(false);
-    }
+    !flipIcon ? setFlipIcon(true) : setFlipIcon(false);
   };
 
   const viewAllRolesHandler = () => {
@@ -91,27 +87,23 @@ function App() {
   // control which button is rendered based on whether or not the view all
   // button has been clicked
   const buttonText = () => {
-    if (!viewAllRoles) {
-      return (
-        <button
-          id="view-all__btn"
-          style={{ marginTop: "10px", marginBottom: "5px" }}
-          onClick={viewAllRolesHandler}
-        >
-          View all
-        </button>
-      );
-    } else {
-      return (
-        <button
-          id="view-all__btn"
-          style={{ marginTop: "10px", marginBottom: "5px" }}
-          onClick={viewLessHandler}
-        >
-          View less
-        </button>
-      );
-    }
+    return !viewAllRoles ? (
+      <button
+        id="view-all__btn"
+        style={{ marginTop: "10px", marginBottom: "5px" }}
+        onClick={viewAllRolesHandler}
+      >
+        View all
+      </button>
+    ) : (
+      <button
+        id="view-all__btn"
+        style={{ marginTop: "10px", marginBottom: "5px" }}
+        onClick={viewLessHandler}
+      >
+        View less
+      </button>
+    );
   };
 
   return (

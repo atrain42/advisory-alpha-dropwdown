@@ -57,8 +57,6 @@ function App() {
       });
   }, []);
 
-  console.log(apiData);
-
   //Create a use effect that autofocuses the search input when the button is clicked
   useEffect(() => {
     searchValue.current.focus();
@@ -82,28 +80,6 @@ function App() {
 
   const viewLessHandler = () => {
     setViewAllRoles(false);
-  };
-
-  // control which button is rendered based on whether or not the view all
-  // button has been clicked
-  const buttonText = () => {
-    return !viewAllRoles ? (
-      <button
-        id="view-all__btn"
-        style={{ marginTop: "10px", marginBottom: "5px" }}
-        onClick={viewAllRolesHandler}
-      >
-        View all
-      </button>
-    ) : (
-      <button
-        id="view-all__btn"
-        style={{ marginTop: "10px", marginBottom: "5px" }}
-        onClick={viewLessHandler}
-      >
-        View less
-      </button>
-    );
   };
 
   // Controls how much data is rendered in the list from the API
@@ -194,7 +170,13 @@ function App() {
           </span>
           <ul>
             {showDataLength()}
-            {buttonText()}
+            <button
+              id="view-all__btn"
+              style={{ marginTop: "10px", marginBottom: "5px" }}
+              onClick={!viewAllRoles ? viewAllRolesHandler : viewLessHandler}
+            >
+              {!viewAllRoles ? "View all" : "View less"}
+            </button>
           </ul>
         </div>
         {/* Make logout button and copyright info disappear when view all button is clicked */}

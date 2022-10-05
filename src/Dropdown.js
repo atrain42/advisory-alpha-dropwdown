@@ -2,8 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useInView } from "framer-motion";
 
+import {Button, ViewButton, ShowDataLength, Navbar} from './components'
+
 //Icons
-import iconCaret from "./img/icon-caret.svg";
 import iconCog from "./img/icon-cog.svg";
 import iconClick from "./img/icon-clock.svg";
 import iconSuitcase from "./img/icon-suitcase.svg";
@@ -26,8 +27,9 @@ const icons = [
 
 function App() {
   const [apiData, setApiData] = useState([]);
-  const [flipIcon, setFlipIcon] = useState(false);
   const [dropdown, setDropdown] = useState(false);
+  
+  
   const [filterData, setFilterData] = useState("");
   const [viewAllRoles, setViewAllRoles] = useState(false);
 
@@ -60,77 +62,22 @@ function App() {
   //Create a use effect that autofocuses the search input when the button is clicked
   useEffect(() => {
     searchValue.current.focus();
-  }, [dropdown]);
+  }, []);
 
-  const clickHandler = () => {
-    if (!dropdown) {
-      setDropdown(true);
-      setViewAllRoles(false);
-    } else {
-      setDropdown(false);
-      setViewAllRoles(true);
-    }
+  
 
-    !flipIcon ? setFlipIcon(true) : setFlipIcon(false);
+  const viewRolesHandler = () => {
+    setViewAllRoles(!viewAllRoles);
   };
 
-  const viewAllRolesHandler = () => {
-    setViewAllRoles(true);
-  };
 
-  const viewLessHandler = () => {
-    setViewAllRoles(false);
-  };
 
-  // Controls how much data is rendered in the list from the API
-  // if user hasn't clicked "view all" button, then the trimmedData is rendered
-  // if user clicks "view all", then apiData is rendered
-  const showDataLength = () => {
-    return !viewAllRoles
-      ? trimmedData
-          .filter((el) => el.name.includes(filterData) || filterData === "")
-          .map((el, index) => (
-            <li
-              key={index}
-              onClick={() => {
-                setName(el.name);
-                setRole(el.role);
-              }}
-            >
-              <h4>{el.name}</h4>
-              <h5>{el.role}</h5>
-            </li>
-          ))
-      : apiData
-          .filter((el) => el.name.includes(filterData) || filterData === "")
-          .map((el, index) => (
-            <li
-              key={index}
-              onClick={() => {
-                setName(el.name);
-                setRole(el.role);
-              }}
-            >
-              <h4>{el.name}</h4>
-              <h5>{el.role}</h5>
-            </li>
-          ));
-  };
-
+ 
   return (
+    <Navbar>
     <div className="container">
-      <button onClick={clickHandler} id="main-btn">
-        <img src={profileImage} alt="profile" id="profile-img" />
-        <span className="btn-text">
-          <h1>Sarah Johnson</h1>
-          <p>{name}</p>
-        </span>
-        <img
-          src={iconCaret}
-          alt="icon"
-          id={!flipIcon ? "caret-icon" : "caret-icon__flipped"}
-        />
-      </button>
+      <Button name={name} setViewAllRoles={setViewAllRoles} setDropdown={setDropdown} dropdown={dropdown} />
+  
 
       <div
         className={!dropdown ? "dropdown" : "dropdown-unhide"}
@@ -169,14 +116,8 @@ function App() {
             ></input>
           </span>
           <ul>
-            {showDataLength()}
-            <button
-              id="view-all__btn"
-              style={{ marginTop: "10px", marginBottom: "5px" }}
-              onClick={!viewAllRoles ? viewAllRolesHandler : viewLessHandler}
-            >
-              {!viewAllRoles ? "View all" : "View less"}
-            </button>
+            <ShowDataLength apiData={apiData} filterData={filterData} setName={setName} setRole={setRole} viewAllRoles={viewAllRoles} trimmedData={trimmedData}/>
+            <ViewButton viewRolesHandler={viewRolesHandler} viewAllRoles={viewAllRoles}/>
           </ul>
         </div>
         {/* Make logout button and copyright info disappear when view all button is clicked */}
@@ -198,6 +139,7 @@ function App() {
         )}
       </div>
     </div>
+    </Navbar>
   );
 }
 

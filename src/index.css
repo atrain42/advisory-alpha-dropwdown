@@ -7,6 +7,15 @@
   font-family: "Roboto", sans-serif;
 }
 
+nav {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.sub-nav {
+  margin-right: 200px;
+}
+
 .container {
   margin-top: 20px;
   display: flex;

@@ -1,4 +1,4 @@
-const ViewButton = ({viewRolesHandler, viewAllRoles}) => {
+const ViewButton = ({ viewRolesHandler, viewAllRoles }) => {
   return (
     <button
       id="view-all__btn"
@@ -7,8 +7,7 @@ const ViewButton = ({viewRolesHandler, viewAllRoles}) => {
     >
       {!viewAllRoles ? "View all" : "View less"}
     </button>
-  )
+  );
+};
 
-}
-
-export default ViewButton
+export default ViewButton;

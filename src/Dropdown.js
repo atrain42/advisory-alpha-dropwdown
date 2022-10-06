@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { useInView } from "framer-motion";
 
-import {Button, ViewButton, ShowDataLength, Navbar} from './components'
+import { Button, ViewButton, ShowDataLength, Navbar } from "./components";
 
 //Icons
 import iconCog from "./img/icon-cog.svg";
@@ -28,8 +28,8 @@ const icons = [
 function App() {
   const [apiData, setApiData] = useState([]);
   const [dropdown, setDropdown] = useState(false);
-  
-  
+
+  // filter data contains the value that is typed in the input
   const [filterData, setFilterData] = useState("");
   const [viewAllRoles, setViewAllRoles] = useState(false);
 
@@ -39,7 +39,6 @@ function App() {
   const [role, setRole] = useState("");
 
   const searchValue = useRef("");
-  const trimmedData = apiData.slice(0, -2);
 
   // dropdown animation intersection observer
   const dropdownRef = useRef(null);
@@ -64,81 +63,89 @@ function App() {
     searchValue.current.focus();
   }, []);
 
-  
-
   const viewRolesHandler = () => {
     setViewAllRoles(!viewAllRoles);
   };
 
-
-
- 
   return (
     <Navbar>
-    <div className="container">
-      <Button name={name} setViewAllRoles={setViewAllRoles} setDropdown={setDropdown} dropdown={dropdown} />
-  
+      <div className="container">
+        <Button
+          name={name}
+          setViewAllRoles={setViewAllRoles}
+          setDropdown={setDropdown}
+          dropdown={dropdown}
+        />
 
-      <div
-        className={!dropdown ? "dropdown" : "dropdown-unhide"}
-        ref={dropdownRef}
-      >
-        <div className="dropdown-header">
-          <h1>{name}</h1>
-          <img src={profileImage} alt="profile" id="dropdown-img" />
-          <h2>Sarah Johnson</h2>
-          <h4>{role}</h4>
-          <h5>sarah@advisoryalpha.com</h5>
-          <div className="icon-container">
-            {icons.map((el, index) => (
-              <img key={index} src={el.icon} alt="icon" />
-            ))}
+        <div
+          className={!dropdown ? "dropdown" : "dropdown-unhide"}
+          ref={dropdownRef}
+        >
+          <div className="dropdown-header">
+            <h1>{name}</h1>
+            <img src={profileImage} alt="profile" id="dropdown-img" />
+            <h2>Sarah Johnson</h2>
+            <h4>{role}</h4>
+            <h5>sarah@advisoryalpha.com</h5>
+            <div className="icon-container">
+              {icons.map((el, index) => (
+                <img key={index} src={el.icon} alt="icon" />
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="dropdown-body">
-          <p
-            style={{
-              transform: isInView ? "none" : "translateX(20px)",
-              opacity: isInView ? 1 : 0,
-              transition: "all 0.5s ease-in",
-            }}
-          >
-            SWITCH IDENTITIES
-          </p>
-
-          <span>
-            <img src={iconSearch} alt="icon" />
-            <input
-              type="text"
-              ref={searchValue}
-              value={filterData}
-              onChange={(e) => setFilterData(e.target.value)}
-            ></input>
-          </span>
-          <ul>
-            <ShowDataLength apiData={apiData} filterData={filterData} setName={setName} setRole={setRole} viewAllRoles={viewAllRoles} trimmedData={trimmedData}/>
-            <ViewButton viewRolesHandler={viewRolesHandler} viewAllRoles={viewAllRoles}/>
-          </ul>
-        </div>
-        {/* Make logout button and copyright info disappear when view all button is clicked */}
-        {!viewAllRoles && (
-          <div className="dropdown-footer">
-            <button
-              id="logout-btn"
+          <div className="dropdown-body">
+            <p
               style={{
-                transform: isInView ? "none" : "translateY(20px)",
+                transform: isInView ? "none" : "translateX(20px)",
                 opacity: isInView ? 1 : 0,
-                transition: "all 0.3s linear 0.7s",
+                transition: "all 0.5s ease-in",
               }}
-              onClick={() => setDropdown(false)}
             >
-              Log out
-            </button>
-            <p id="copyright">&#xA9; Advisory Alpha, 2022</p>
+              SWITCH IDENTITIES
+            </p>
+
+            <span>
+              <img src={iconSearch} alt="icon" />
+              <input
+                type="text"
+                ref={searchValue}
+                value={filterData}
+                onChange={(e) => setFilterData(e.target.value)}
+              ></input>
+            </span>
+            <ul className={!viewAllRoles ? "ul-initial" : "ul-final"}>
+              <ShowDataLength
+                apiData={apiData}
+                filterData={filterData}
+                setName={setName}
+                setRole={setRole}
+                viewAllRoles={viewAllRoles}
+              />
+            </ul>
+            <ViewButton
+              viewRolesHandler={viewRolesHandler}
+              viewAllRoles={viewAllRoles}
+            />
           </div>
-        )}
+          {/* Make logout button and copyright info disappear when view all button is clicked */}
+          {!viewAllRoles && (
+            <div className="dropdown-footer">
+              <button
+                id="logout-btn"
+                style={{
+                  transform: isInView ? "none" : "translateY(20px)",
+                  opacity: isInView ? 1 : 0,
+                  transition: "all 0.3s linear 0.7s",
+                }}
+                onClick={() => setDropdown(false)}
+              >
+                Log out
+              </button>
+              <p id="copyright">&#xA9; Advisory Alpha, 2022</p>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </Navbar>
   );
 }

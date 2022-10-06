@@ -1,14 +1,9 @@
-const Navbar = ({children}) => {
+const Navbar = ({ children }) => {
   return (
     <nav>
-      <div className="sub-nav">
-      {children}
-      </div>
-    
+      <div className="sub-nav">{children}</div>
     </nav>
-    
-    )
+  );
+};
 
-}
-
-export default Navbar
+export default Navbar;

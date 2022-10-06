@@ -5,7 +5,7 @@ const ViewButton = ({ viewRolesHandler, viewAllRoles }) => {
       style={{ marginTop: "10px", marginBottom: "5px" }}
       onClick={viewRolesHandler}
     >
-      {!viewAllRoles ? "View all" : "View less"}
+      {!viewAllRoles ? "View more" : "View less"}
     </button>
   );
 };

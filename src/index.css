@@ -9,19 +9,21 @@
 
 nav {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   width: 100%;
+  height: 100px;
+  box-shadow: 0px 0px 10px 2px #0505050a;
 }
 
 .sub-nav {
-  margin-right: 200px;
+  margin-right: 50px;
 }
 
 .container {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
 }
 
 button {
@@ -36,7 +38,6 @@ button {
   align-items: center;
   border: none;
   border-radius: 10px;
-  margin: 0 auto;
   margin-bottom: 10px;
 }
 

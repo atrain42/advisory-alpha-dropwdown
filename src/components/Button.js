@@ -1,18 +1,16 @@
-import React, {useState} from 'react'
+import React, { useState } from "react";
 
 import iconCaret from "../img/icon-caret.svg";
 import profileImage from "../img/robot.jpg";
 
-const Button = ({name, setViewAllRoles, setDropdown, dropdown}) => {
+const Button = ({ name, setViewAllRoles, setDropdown, dropdown }) => {
   const [flipIcon, setFlipIcon] = useState(false);
-  
 
   const clickHandler = () => {
     setDropdown(!dropdown);
     setViewAllRoles(dropdown);
     setFlipIcon(!flipIcon);
   };
-
 
   return (
     <>
@@ -29,7 +27,7 @@ const Button = ({name, setViewAllRoles, setDropdown, dropdown}) => {
         />
       </button>
     </>
-  )
-}
+  );
+};
 
 export default Button;
